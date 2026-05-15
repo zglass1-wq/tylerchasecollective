@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Wedding Guide | Tyler Chase Collective</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="apple-touch-icon" href="images/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Password Gate ── */
+    .guide-gate {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .guide-gate.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .guide-gate-inner {
+      text-align: center;
+      max-width: 400px;
+      padding: 40px 24px;
+    }
+    .gate-icon {
+      width: 72px;
+      height: auto;
+      margin: 0 auto 28px;
+    }
+    .gate-wordmark {
+      font-family: 'DIN Condensed', 'Arial Narrow', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1.05;
+      margin-bottom: 2px;
+    }
+    .gate-wordmark-sub {
+      font-family: 'DIN Condensed', 'Arial Narrow', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 12px;
+    }
+    .gate-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 20px auto 24px;
+    }
+    .gate-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 16px;
+    }
+    .gate-form {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .gate-input {
+      border: 1px solid var(--offwhite);
+      background: var(--white);
+      padding: 12px 16px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--black);
+      outline: none;
+      flex: 1;
+      max-width: 210px;
+      transition: border-color 0.2s;
+      letter-spacing: 0.08em;
+    }
+    .gate-input:focus { border-color: var(--gold); }
+    .gate-error {
+      color: #b94a48;
+      font-size: 0.78rem;
+      margin-top: 12px;
+      min-height: 18px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Guide Hero ── */
+    .guide-hero {
+      height: 88vh;
+      min-height: 520px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 80px;
+      text-align: center;
+    }
+    .guide-hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+    .guide-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(22,19,16,0.15) 0%, rgba(22,19,16,0.6) 100%);
+    }
+    .guide-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .guide-hero-eyebrow {
+      display: block;
+      font-family: 'DIN Condensed', 'Arial Narrow', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: 18px;
+    }
+    .guide-hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+    }
+
+    /* ── Section base ── */
+    .gs { padding: 100px 40px; }
+    .gs-inner { max-width: var(--max); margin: 0 auto; }
+
+    /* ── Welcome ── */
+    .gs-welcome-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .gs-welcome-img {
+      height: 580px;
+      overflow: hidden;
+    }
+    .gs-welcome-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gs-welcome-text h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 28px;
+      color: var(--black);
+    }
+
+    /* ── Collective ── */
+    .gs-collective-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .gs-collective-img {
+      height: 620px;
+      overflow: hidden;
+    }
+    .gs-collective-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .gs-sig {
+      font-family: var(--font-serif);
+      font-size: 2.4rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+      margin-top: 32px;
+    }
+
+    /* ── Collections ── */
+    .gs-pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 52px;
+    }
+    .gs-pkg {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--offwhite);
+      overflow: hidden;
+    }
+    .gs-pkg.gs-pkg-featured { border-color: var(--gold); }
+    .gs-pkg-img { height: 280px; overflow: hidden; flex-shrink: 0; }
+    .gs-pkg-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gs-pkg-body {
+      padding: 36px 32px;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .gs-pkg-featured .gs-pkg-body { background: var(--black); }
+    .gs-pkg-body .btn { margin-top: auto; align-self: flex-start; }
+    .gs-pkg-badge {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .gs-pkg-name {
+      font-family: 'DIN Condensed', 'Arial Narrow', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .gs-pkg-featured .gs-pkg-name { color: var(--white); }
+    .gs-pkg-price {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 28px;
+      line-height: 1;
+    }
+    .gs-pkg-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+    }
+    .gs-pkg-list li {
+      font-size: 0.88rem;
+      color: var(--warm);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .gs-pkg-featured .gs-pkg-list li { color: rgba(255,255,255,0.6); }
+    .gs-pkg-list li::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 0.42rem;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .gs-addon-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.85rem;
+      color: var(--warm);
+      border-top: 1px solid var(--offwhite);
+      padding-top: 28px;
+    }
+
+    /* ── Content Creation ── */
+    .gs-cc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 820px;
+      margin: 48px auto 0;
+    }
+    .gs-cc-card {
+      background: var(--white);
+      padding: 44px 36px;
+      border: 1px solid var(--offwhite);
+    }
+    .gs-cc-num {
+      font-family: 'DIN Condensed', 'Arial Narrow', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .gs-cc-price {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--black);
+      margin-bottom: 22px;
+    }
+    .gs-cc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .gs-cc-list li {
+      font-size: 0.87rem;
+      color: var(--warm);
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+    .gs-cc-list li::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 0.42rem;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    /* ── À La Carte ── */
+    .gs-alacarte {
+      max-width: 660px;
+      margin: 44px auto 0;
+    }
+    .gs-alacarte-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--offwhite);
+      gap: 16px;
+    }
+    .gs-alacarte-row:first-child { border-top: 1px solid var(--offwhite); }
+    .gs-alacarte-name { font-size: 0.93rem; color: var(--charcoal); }
+    .gs-alacarte-price {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* ── Albums ── */
+    .gs-albums-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 48px;
+    }
+    .gs-album-card {
+      background: var(--white);
+      padding: 44px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .gs-album-card.gs-album-featured { outline: 1px solid var(--gold); }
+    .gs-album-name {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .gs-album-spec {
+      font-size: 0.82rem;
+      color: var(--warm);
+      margin-bottom: 5px;
+    }
+    .gs-album-price {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--gold);
+      margin: 20px 0 6px;
+    }
+    .gs-album-note {
+      font-size: 0.75rem;
+      color: var(--warm);
+      opacity: 0.65;
+      margin-top: 4px;
+    }
+    .gs-albums-callout {
+      max-width: var(--max);
+      margin: 32px auto 0;
+      background: var(--offwhite);
+      padding: 36px 40px;
+      text-align: center;
+    }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border-bottom: 1px solid var(--offwhite);
+      padding: 24px 0;
+    }
+    .faq-item summary {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--black);
+      gap: 16px;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gold);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p {
+      margin-top: 14px;
+      font-size: 0.93rem;
+      color: var(--warm);
+      line-height: 1.75;
+      max-width: 680px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .gs-welcome-grid,
+      .gs-collective-grid { grid-template-columns: 1fr; gap: 48px; }
+      .gs-welcome-img,
+      .gs-collective-img { height: 420px; }
+      .gs-pkg-grid { grid-template-columns: 1fr; }
+      .gs-pkg-img { height: 260px; }
+      .gs-albums-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; gap: 2px; }
+    }
+    @media (max-width: 768px) {
+      .gs { padding: 72px 24px; }
+      .gs-cc-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .gate-form { flex-direction: column; align-items: center; }
+      .gate-input { max-width: 100%; width: 100%; }
+      .gs-alacarte-row { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Password Gate ── -->
+  <div class="guide-gate" id="guideGate">
+    <div class="guide-gate-inner">
+      <img src="images/favicon.png" class="gate-icon" alt="Tyler Chase Collective" />
+      <p class="gate-wordmark">Tyler Chase</p>
+      <p class="gate-wordmark-sub">Collective</p>
+      <div class="gate-divider"></div>
+      <p class="gate-label">Wedding Guide &nbsp;·&nbsp; Access Code Required</p>
+      <div class="gate-form">
+        <input type="password" id="gateInput" class="gate-input" placeholder="Enter access code"
+          onkeydown="if(event.key==='Enter')checkPassword()" />
+        <button onclick="checkPassword()" class="btn btn-primary">Enter</button>
+      </div>
+      <p class="gate-error" id="gateError"></p>
+    </div>
+  </div>
+
+  <!-- ── Guide Content ── -->
+  <div id="guideContent">
+
+    <div class="scarcity-bar">
+      <p>Now booking 2026 &amp; 2027 &nbsp;·&nbsp; <strong>limited dates remain</strong> &nbsp;·&nbsp; Most couples book 8–12 months in advance</p>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="index.html" class="nav-logo"><span class="logo-top">Tyler Chase</span><span class="logo-sub">Collective</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="investment.html">Investment</a></li>
+        <li><a href="families.html">Families</a></li>
+        <li><a href="contact.html" class="nav-cta">Check Availability</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <button class="mobile-menu-close" id="mobileClose">✕</button>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="investment.html">Investment</a></li>
+        <li><a href="families.html">Families</a></li>
+        <li><a href="contact.html">Check Availability</a></li>
+      </ul>
+    </div>
+
+    <!-- Hero -->
+    <section class="guide-hero">
+      <img src="images/GUIDE_HERO.jpeg" alt="Tyler Chase Collective wedding photography" class="guide-hero-img" />
+      <div class="guide-hero-overlay"></div>
+      <div class="guide-hero-content">
+        <span class="guide-hero-eyebrow">Tyler Chase Collective</span>
+        <h1 class="guide-hero-title">Your Wedding<br /><em>Photography Guide</em></h1>
+      </div>
+    </section>
+
+    <!-- Welcome -->
+    <section class="gs" style="background:var(--white);">
+      <div class="gs-welcome-grid">
+        <div class="gs-welcome-text">
+          <p class="section-eyebrow">Welcome</p>
+          <h2>You don't need to know<br /><em>what to do.</em></h2>
+          <p class="body-text">If the thought of being photographed for 8 hours sounds a little terrifying. That's completely normal. Most couples feel that way. But you're not going to be posing in front of a camera all day. That's not how this works.</p>
+          <p class="body-text" style="margin-top:16px;">My job is to show up, blend in, and move quietly through your day while catching everything worth catching. I'll give you direction when you need it: where to walk, how to stand, what to do with your hands. Then I get out of the way so the day can actually happen around you.</p>
+          <p class="body-text" style="margin-top:16px;">This guide covers everything: packages, add-ons, albums, and every question I get asked. If something's not in here, just ask.</p>
+        </div>
+        <div class="gs-welcome-img">
+          <img src="images/TCG_8926-Large.jpeg" alt="Couple at golden hour" />
+        </div>
+      </div>
+    </section>
+
+    <!-- The Collective -->
+    <section class="gs" style="background:var(--cream);">
+      <div class="gs-collective-grid">
+        <div class="gs-collective-img">
+          <img src="images/Tyler-Large.jpeg" alt="Tyler, wedding photographer" />
+        </div>
+        <div>
+          <p class="section-eyebrow">The Collective</p>
+          <h2 class="section-title">A note<br /><em>from Tyler.</em></h2>
+          <p class="body-text" style="margin-top:20px;">I keep my personal calendar small so I can actually be present for the couples I work with. To make sure more people can still have the same experience, I've built a small team of associate photographers who I've carefully chosen and trained.</p>
+          <p class="body-text" style="margin-top:16px;">Every associate understands the pacing, the feeling, and the care that goes into photographing a wedding the way I do. They're not just talented. They care about your experience as much as the final images.</p>
+          <p class="body-text" style="margin-top:16px;">Whether I'm the one shooting your day or one of my associates is, you'll get the same communication, the same editing, and the same attention. Every gallery, regardless of who shot it, comes back to me and gets edited before it goes to you.</p>
+          <p class="body-text" style="margin-top:24px;font-weight:500;color:var(--black);">You're taken care of, start to finish.</p>
+          <p class="gs-sig">Tyler</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collections -->
+    <section class="gs" style="background:var(--white);">
+      <div class="gs-inner">
+        <div class="section-header">
+          <p class="section-eyebrow">Collections</p>
+          <h2 class="section-title">Find the right fit.</h2>
+          <p class="body-text" style="text-align:center;margin:16px auto 0;color:var(--warm);">Every collection includes a private online gallery, print release, timeline consultation, and full communication throughout.</p>
+        </div>
+
+        <div class="gs-pkg-grid">
+
+          <div class="gs-pkg">
+            <div class="gs-pkg-img">
+              <img src="images/GUIDE_PKG1.jpeg" alt="Wedding photography" style="object-position:center 15%;" />
+            </div>
+            <div class="gs-pkg-body">
+              <div class="gs-pkg-name">Essential</div>
+              <div class="gs-pkg-price">$8,500</div>
+              <ul class="gs-pkg-list">
+                <li>6 hours of coverage</li>
+                <li>1 lead photographer</li>
+                <li>500+ fully edited images</li>
+                <li>Private online gallery</li>
+                <li>4-week delivery</li>
+                <li>Pre-wedding timeline consultation</li>
+                <li>Print release included</li>
+              </ul>
+              <a href="contact.html" class="btn btn-outline" style="align-self:flex-start;">Check Availability</a>
+            </div>
+          </div>
+
+          <div class="gs-pkg gs-pkg-featured">
+            <div class="gs-pkg-img">
+              <img src="images/GUIDE_PKG2.jpeg" alt="Wedding photography" style="object-position:center 25%;" />
+            </div>
+            <div class="gs-pkg-body">
+              <div class="gs-pkg-badge">Most Popular</div>
+              <div class="gs-pkg-name">Signature</div>
+              <div class="gs-pkg-price">$10,500</div>
+              <ul class="gs-pkg-list">
+                <li>8 hours of coverage</li>
+                <li>Lead + second photographer</li>
+                <li>800+ fully edited images</li>
+                <li>Engagement session included</li>
+                <li>Private online gallery</li>
+                <li>4-week delivery</li>
+                <li>Timeline + vendor coordination</li>
+                <li>Print release included</li>
+              </ul>
+              <a href="contact.html" class="btn btn-primary" style="align-self:flex-start;">Check Availability</a>
+            </div>
+          </div>
+
+          <div class="gs-pkg">
+            <div class="gs-pkg-img">
+              <img src="images/GUIDE_PKG3.jpeg" alt="Wedding reception" style="object-position:center 55%;" />
+            </div>
+            <div class="gs-pkg-body">
+              <div class="gs-pkg-name">Full Collection</div>
+              <div class="gs-pkg-price">$13,500</div>
+              <ul class="gs-pkg-list">
+                <li>Full day coverage (up to 10 hrs)</li>
+                <li>Lead + second photographer</li>
+                <li>1,000+ fully edited images</li>
+                <li>Engagement session included</li>
+                <li>Rehearsal dinner coverage</li>
+                <li>10×10 lay-flat album included</li>
+                <li>Private online gallery</li>
+                <li>4-week delivery</li>
+                <li>Full planning support</li>
+                <li>Print release included</li>
+              </ul>
+              <a href="contact.html" class="btn btn-outline" style="align-self:flex-start;">Check Availability</a>
+            </div>
+          </div>
+
+        </div>
+        <p class="gs-addon-note">Add drone photography to any collection: $500</p>
+      </div>
+    </section>
+
+    <!-- Associate Photography -->
+    <section class="gs" style="background:var(--cream);">
+      <div class="gs-inner">
+        <div class="section-header">
+          <p class="section-eyebrow">Associate Photography</p>
+          <h2 class="section-title">How it works.</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:52px;">
+          <div>
+            <p class="body-text">I personally match each couple with the right associate based on their vibe, venue, and vision. I stay your main point of contact from the first conversation through delivery, building your timeline with your coordinator, making sure everything is in order, and editing every image in the gallery myself.</p>
+            <p class="body-text" style="margin-top:16px;">My team brings the same relaxed, easygoing energy to your day. We handle everything quietly in the background, from the largest bridal parties to the smallest, most intimate moments, so you can actually enjoy what's happening around you.</p>
+            <p class="body-text" style="margin-top:16px;">Consider us an extension of your bridal party from the moment you book through the end of the night. Need a second opinion on shoes or décor? We're here for that too.</p>
+            <p class="body-text" style="margin-top:16px;">Need a dress bustled? Got it. Lashes need a fix? We've got glue. Grandma's lipstick needs a touch-up? We've got her too.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px;">
+            <div style="background:var(--white);padding:36px 32px;">
+              <p style="font-family:var(--font-serif);font-size:1.1rem;font-weight:300;color:var(--black);line-height:1.6;margin-bottom:16px;">"From our initial conversation to receiving the photos, Miranda heard and executed on our vision perfectly. She over-delivered on both the engagement shoot and wedding day, and could not have made us feel more comfortable."</p>
+              <p style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);">Taylor</p>
+            </div>
+            <div style="background:var(--white);padding:36px 32px;">
+              <p style="font-family:var(--font-serif);font-size:1.1rem;font-weight:300;color:var(--black);line-height:1.6;margin-bottom:16px;">"She is extremely patient, thoughtful, and kind. Tyler Chase Collective is your team. Her work stood out to me from the beginning. I'm so happy I got to work with her and hope to again."</p>
+              <p style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);">Maddalena</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Creation -->
+    <section class="gs" style="background:var(--offwhite);">
+      <div class="gs-inner">
+        <div class="section-header">
+          <p class="section-eyebrow">Content Creation</p>
+          <h2 class="section-title">Made for your feed.</h2>
+          <p class="body-text" style="text-align:center;margin:16px auto 0;color:var(--warm);">Shot on iPhone, edited with music, ready to post to Reels or TikTok. Delivered within one week of your wedding.</p>
+        </div>
+        <div class="gs-cc-grid">
+          <div class="gs-cc-card">
+            <div class="gs-cc-num">Package No. 1</div>
+            <div class="gs-cc-price">$1,000</div>
+            <ul class="gs-cc-list">
+              <li>3 edited videos with music</li>
+              <li>"The details" / "Best of the day" / "The couple"</li>
+              <li>All un-edited footage included</li>
+              <li>Delivered within 1 week</li>
+            </ul>
+          </div>
+          <div class="gs-cc-card">
+            <div class="gs-cc-num">Package No. 2</div>
+            <div class="gs-cc-price">$1,400</div>
+            <ul class="gs-cc-list">
+              <li>6 edited videos with music</li>
+              <li>"Details" / "Best of day" / "Couple" / "Ceremony" / "First look" / "Reception"</li>
+              <li>All un-edited footage included</li>
+              <li>Delivered within 1 week</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- À La Carte -->
+    <section class="gs" style="background:var(--white);">
+      <div class="gs-inner">
+        <div class="section-header">
+          <p class="section-eyebrow">À La Carte</p>
+          <h2 class="section-title">Add what you need.</h2>
+        </div>
+        <div class="gs-alacarte">
+          <div class="gs-alacarte-row">
+            <span class="gs-alacarte-name">Drone photography: ceremony, reception + sunset shots</span>
+            <span class="gs-alacarte-price">$500</span>
+          </div>
+          <div class="gs-alacarte-row">
+            <span class="gs-alacarte-name">Bridal shower, rehearsal dinner, or additional event coverage</span>
+            <span class="gs-alacarte-price">$500/hr</span>
+          </div>
+          <div class="gs-alacarte-row">
+            <span class="gs-alacarte-name">Additional photographer (2nd or 3rd)</span>
+            <span class="gs-alacarte-price">$500</span>
+          </div>
+          <div class="gs-alacarte-row">
+            <span class="gs-alacarte-name">Additional hourly wedding coverage</span>
+            <span class="gs-alacarte-price">$600/hr</span>
+          </div>
+          <div class="gs-alacarte-row">
+            <span class="gs-alacarte-name">USB of all photos</span>
+            <span class="gs-alacarte-price">$100</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Albums -->
+    <section class="gs" style="background:var(--cream);">
+      <div class="gs-inner">
+        <div class="section-header">
+          <p class="section-eyebrow">Heirloom Albums + Prints</p>
+          <h2 class="section-title">Something you can hold.</h2>
+          <p class="body-text" style="text-align:center;margin:16px auto 0;max-width:600px;color:var(--warm);">You can order prints straight from your gallery, or go with a custom album. They make great gifts for in-laws and grandparents. Something to pass down.. I use Fuji Crystal Archival paper and lay-flat binding. The quality is worth it.</p>
+        </div>
+
+        <!-- Album photos -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:40px;overflow:hidden;">
+          <div style="overflow:hidden;">
+            <img src="images/ALBUM_C.jpg" alt="Stacked lay-flat wedding albums" style="width:100%;height:360px;object-fit:cover;object-position:center;display:block;transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'" />
+          </div>
+          <div style="overflow:hidden;">
+            <img src="images/ALBUM_B.jpg" alt="Open wedding album print with botanicals" style="width:100%;height:360px;object-fit:cover;object-position:center 80%;display:block;transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'" />
+          </div>
+        </div>
+
+        <div class="gs-albums-grid">
+          <div class="gs-album-card">
+            <p class="gs-album-name">The Highlights</p>
+            <p class="gs-album-spec">8 × 8"</p>
+            <p class="gs-album-spec">Linen cover</p>
+            <p class="gs-album-spec">50–60 photos · Thick pages</p>
+            <p class="gs-album-price">$1,450</p>
+            <p class="gs-album-note">Or upgrade for $400 when booking your package</p>
+          </div>
+          <div class="gs-album-card gs-album-featured">
+            <p class="gs-album-name">The Full Story</p>
+            <p class="gs-album-spec">10 × 10"</p>
+            <p class="gs-album-spec">Linen cover</p>
+            <p class="gs-album-spec">80–100 photos · Thick pages</p>
+            <p class="gs-album-price">$1,950</p>
+            <p class="gs-album-note">Upgrade for $400 after booking</p>
+          </div>
+          <div class="gs-album-card">
+            <p class="gs-album-name">The Complete Story</p>
+            <p class="gs-album-spec">12 × 12"</p>
+            <p class="gs-album-spec">Leather cover</p>
+            <p class="gs-album-spec">125–150 photos · Thick pages</p>
+            <p class="gs-album-price">$2,450</p>
+            <p class="gs-album-note">Upgrade for $800 after booking</p>
+          </div>
+        </div>
+
+        <div class="gs-albums-callout">
+          <p class="body-text" style="max-width:100%;text-align:center;">Parent albums (duplicates of yours) are 15% off. Grandparents especially love them.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="gs" style="background:var(--white);">
+      <div style="max-width:760px;margin:0 auto;">
+        <div class="section-header">
+          <p class="section-eyebrow">FAQs</p>
+          <h2 class="section-title">Stuff you're probably wondering.</h2>
+        </div>
+        <div style="margin-top:48px;">
+
+          <details class="faq-item">
+            <summary>Do you travel for destination weddings?</summary>
+            <p>For any wedding that requires a flight within the US, I just ask for a hotel room for 2 nights (3 nights if I'm covering the rehearsal dinner). For weddings over 100 miles away but drivable within 2 hours, I ask for a hotel the night before and the night of, mostly so you know I'm already in town and not racing against traffic on your wedding morning. For international weddings, an additional room may be needed depending on the situation. All travel (flights, hotel, rental car) is reimbursed after the wedding. I'll find good deals and invoice you after. Reach out for custom quotes on anything international.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What's your turnaround time?</summary>
+            <p>One month for weddings. Two weeks for engagement sessions.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>How do you deliver photos, and can we download them?</summary>
+            <p>Through an online gallery that's easy to use. Everything is high resolution and fully edited. You can download straight to your phone or computer, make favorites lists, share with family and friends, and place print orders right from the gallery.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>How many photos will we get?</summary>
+            <p>Around 100 per hour for weddings. 150+ for engagement sessions.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Will all the photos be edited?</summary>
+            <p>Yes, every one is fully color corrected. I also remove anything distracting: blemishes, trash on the ground, random people in the background who don't belong there.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Will you edit in different styles, like dark and moody?</summary>
+            <p>I stick to my one style, and it's intentional. I want your photos to have continuity across the whole day. Not a mix of different looks depending on the light or the moment. My style is also timeless. Dark and moody has a shelf life. Yours won't.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>How long will the gallery be available?</summary>
+            <p>Technically forever. But I always recommend downloading everything immediately when you get it and backing it up to a hard drive. Don't leave it solely in the cloud.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Will you deliver RAW files?</summary>
+            <p>Nope. You'd need professional software just to open them, and a huge part of my style comes from the editing. The finished images are what you're hiring me for.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Do you deliver black and whites?</summary>
+            <p>Yes! I love a good B&W. Any photo I convert, you'll also get in color. I tend to make ones B&W that feel sentimental, romantic, or that I just love the composition of.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>We're nervous about being in front of the camera. Will you direct us?</summary>
+            <p>That's literally my whole thing. I don't expect you to know what to do. It's awkward, I completely get it. I use prompts and movement to get you out of your head and into the moment. Natural reactions. Not stiff, prom-style poses.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What should we do with our engagement photos?</summary>
+            <p>A lot of things: save the dates, a guest book for the wedding, framed prints at the reception, thank you cards. I have discount codes for Minted and Basic Invite, both offer free address labeling, just ask. And please don't print at Snapfish or CVS. The colors never come out right.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>We already had a photographer at the proposal. Can you discount the package?</summary>
+            <p>Of course. Engagement sessions are a great practice run and a good way to get comfortable together before the wedding, but if you've already done one, I'll take $500 off your package. I'd still love to grab drinks or brunch beforehand so we can actually meet before your day.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What time should we be done with hair and makeup?</summary>
+            <p>1 to 2.5 hours before you need to be anywhere, depending on whether you're doing a first look. More buffer is always better. You don't want to feel rushed right before your ceremony.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Do you bring your own reception lighting?</summary>
+            <p>I use an on-camera flash only, so you don't have to worry about extra equipment being set up in the room or killing the vibe.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What kind of reception lighting looks best in photos?</summary>
+            <p>String lights, always. If you want more of a party feel, ask your DJ to use white lights only. Colored lights, especially red or green, can look really strange in photos. Trust me on this one.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Why is there a discount when using an associate photographer?</summary>
+            <p>Honestly, I'm bummed when I can't be there, so I discount the package as a kind of wedding gift from me to you. I also just want great photography to be available to more people.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Will the photos still look like yours if we use an associate?</summary>
+            <p>Yes. I've trained my associates to shoot the way I do. But the biggest factor is editing. Every gallery comes back to me and gets edited in my style before it goes to you. So yes, they'll look like mine.</p>
+          </details>
+
+        </div>
+
+        <p class="body-text" style="text-align:center;margin-top:52px;color:var(--warm);">
+          Have a question that's not here? Just ask: <a href="mailto:tyler@tylerchasecollective.com" style="color:var(--gold);border-bottom:1px solid var(--gold-lt);">tyler@tylerchasecollective.com</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" style="background:var(--black);max-width:100%;padding:100px 40px;">
+      <div class="cta-inner">
+        <p class="section-eyebrow" style="color:var(--gold);">Ready to move forward?</p>
+        <h2 class="cta-headline" style="color:var(--white);">Let's check<br /><em>if your date is open.</em></h2>
+        <p class="cta-sub" style="color:rgba(255,255,255,0.65);">Inquiry takes 2 minutes. I'll respond within 24 hours with availability and next steps.</p>
+        <a href="contact.html" class="btn btn-primary btn-large">Check Your Date →</a>
+        <p class="cta-note" style="color:rgba(255,255,255,0.35);">No commitment. Just a conversation.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/favicon.png" alt="Tyler Chase Collective" class="footer-favicon" />
+          <p class="footer-tagline">Editorial wedding photography.</p>
+          <p class="footer-location">Based in Southern California &amp; Hawaii · Available Worldwide</p>
+        </div>
+        <div class="footer-links">
+          <a href="gallery.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="investment.html">Investment</a>
+        </div>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/tylerchasecollective" target="_blank" rel="noopener">Instagram</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Tyler Chase Collective · <a href="mailto:tyler@tylerchasecollective.com">tyler@tylerchasecollective.com</a></p>
+      </div>
+    </footer>
+
+  </div><!-- /guideContent -->
+
+  <script>
+    const GUIDE_PASSWORD = 'weddings';
+
+    // Stay unlocked for the session
+    if (sessionStorage.getItem('guideUnlocked') === 'true') {
+      document.getElementById('guideGate').classList.add('unlocked');
+    }
+
+    function checkPassword() {
+      const val = document.getElementById('gateInput').value.trim();
+      const err = document.getElementById('gateError');
+      if (val === GUIDE_PASSWORD) {
+        sessionStorage.setItem('guideUnlocked', 'true');
+        document.getElementById('guideGate').classList.add('unlocked');
+        err.textContent = '';
+      } else {
+        err.textContent = 'Incorrect code. Try again.';
+        document.getElementById('gateInput').value = '';
+        document.getElementById('gateInput').focus();
+      }
+    }
+  </script>
+  <script src="main.js"></script>
+</body>
+</html>
